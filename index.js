@@ -20,6 +20,14 @@ function xdgOpen(url) {
   }).unref();
 }
 
+/** Build the icon object for pop-launcher (Name for theme, Mime for file path). */
+function iconSource(icon) {
+  if (typeof icon === "string" && icon.startsWith("/")) {
+    return { Mime: icon };
+  }
+  return { Name: icon || "system-search" };
+}
+
 // ── state ────────────────────────────────────────────────────────────────────
 
 /** Stores the resolved URLs for the current search so Activate can use them. */
@@ -82,7 +90,7 @@ function handleSearch(query) {
             ? `${bang.name}: ${searchTerms}`
             : `${bang.name}`,
           description,
-          icon: { Name: bang.icon },
+          icon: iconSource(bang.icon),
         },
       });
 

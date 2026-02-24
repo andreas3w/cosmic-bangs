@@ -70,4 +70,18 @@ try {
   // No custom bangs file — that's fine
 }
 
+// ── Resolve icon names to absolute SVG paths if bundled ──────────
+const path = require("path");
+const fs = require("fs");
+const iconsDir = path.join(__dirname, "icons");
+
+for (const bang of Object.values(BANGS)) {
+  if (typeof bang.icon === "string" && !bang.icon.startsWith("/")) {
+    const svgPath = path.join(iconsDir, bang.icon + ".svg");
+    if (fs.existsSync(svgPath)) {
+      bang.icon = svgPath;
+    }
+  }
+}
+
 module.exports = BANGS;
