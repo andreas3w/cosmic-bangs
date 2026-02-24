@@ -1,0 +1,16 @@
+#!/bin/sh
+# Wrapper launched by pop-launcher. Runs the Node.js plugin.
+# Try node from PATH first, fall back to common NVM/system locations
+if command -v node >/dev/null 2>&1; then
+  NODE=node
+elif [ -x "$HOME/.nvm/versions/node/$(ls "$HOME/.nvm/versions/node/" 2>/dev/null | sort -V | tail -1)/bin/node" ]; then
+  NODE="$HOME/.nvm/versions/node/$(ls "$HOME/.nvm/versions/node/" | sort -V | tail -1)/bin/node"
+elif [ -x /usr/bin/node ]; then
+  NODE=/usr/bin/node
+elif [ -x /usr/local/bin/node ]; then
+  NODE=/usr/local/bin/node
+else
+  echo "node not found" >&2
+  exit 1
+fi
+exec "$NODE" "$(dirname "$0")/index.js"

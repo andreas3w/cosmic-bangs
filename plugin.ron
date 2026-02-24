@@ -1,0 +1,13 @@
+(
+    name: "Bangs",
+    description: "DuckDuckGo-style bangs: !yt, !g, !d, etc.",
+    query: (
+        isolate: true,
+        regex: "^!",
+        no_sort: true,
+        help: "!yt ",
+    ),
+    bin: (path: "cosmic-bangs"),
+    icon: Name("system-search"),
+    history: true,
+)
