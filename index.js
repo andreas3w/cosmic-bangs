@@ -71,10 +71,10 @@ function handleSearch(query) {
   } else {
     for (const [key, bang] of matches) {
       const encoded = encodeURIComponent(searchTerms);
-      const url = bang.url + encoded;
+      const url = searchTerms ? bang.url + encoded : bang.home || bang.url;
       const id = activeResults.length;
 
-      const description = searchTerms ? url : `Type a query after !${key}`;
+      const description = searchTerms ? url : bang.home || bang.url;
 
       send({
         Append: {
@@ -84,7 +84,7 @@ function handleSearch(query) {
         },
       });
 
-      activeResults.push(searchTerms ? url : null);
+      activeResults.push(url);
     }
   }
 
