@@ -65,7 +65,6 @@ function handleSearch(query) {
           Object.keys(BANGS)
             .map((k) => "!" + k)
             .join(", "),
-        icon: { Name: "system-search" },
       },
     });
     activeResults.push(null);
@@ -82,7 +81,6 @@ function handleSearch(query) {
           id,
           name: searchTerms ? `${bang.name}: ${searchTerms}` : `${bang.name}`,
           description,
-          icon: { Name: "system-search" },
         },
       });
 
