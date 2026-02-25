@@ -4,7 +4,6 @@
  * Each key is the bang trigger (without the leading !).
  * - name:  Display name shown in the launcher
  * - url:   Search URL; the query string is appended at the end
- * - icon:  Freedesktop icon name (or absolute path)
  *
  * To add custom/work bangs, create a file called bangs-custom.js next to
  * this file (or in the plugin dir) with the same format:
@@ -13,7 +12,6 @@
  *     jira: {
  *       name: "Jira",
  *       url: "https://mycompany.atlassian.net/browse/",
- *       icon: "jira",
  *     },
  *   };
  *
@@ -25,38 +23,48 @@ const BANGS = {
   g: {
     name: "Google",
     url: "https://www.google.com/search?q=",
-    icon: "google",
   },
   d: {
     name: "DuckDuckGo",
     url: "https://duckduckgo.com/?q=",
-    icon: "duckduckgo",
   },
 
   // ── Media ──────────────────────────────────────────────────────
   yt: {
     name: "YouTube",
     url: "https://www.youtube.com/results?search_query=",
-    icon: "youtube",
   },
 
   // ── Dev / Code ─────────────────────────────────────────────────
   gh: {
     name: "GitHub",
     url: "https://github.com/search?q=",
-    icon: "github",
   },
   ghm: {
     name: "GitHub (andreas3w)",
     url: "https://github.com/andreas3w?tab=repositories&q=",
-    icon: "github",
+  },
+
+  // ── Reference ────────────────────────────────────────────────────
+  wiki: {
+    name: "Wikipedia",
+    url: "https://en.wikipedia.org/w/index.php?search=",
+  },
+
+  // ── AI ──────────────────────────────────────────────────────────
+  gpt: {
+    name: "ChatGPT",
+    url: "https://chatgpt.com/?q=",
+  },
+  mc: {
+    name: "Microsoft Copilot",
+    url: "https://copilot.microsoft.com/?q=",
   },
 
   // ── Social ─────────────────────────────────────────────────────
   r: {
     name: "Reddit",
     url: "https://www.reddit.com/search/?q=",
-    icon: "reddit",
   },
 };
 
@@ -68,20 +76,6 @@ try {
   Object.assign(BANGS, custom);
 } catch (_) {
   // No custom bangs file — that's fine
-}
-
-// ── Resolve icon names to absolute SVG paths if bundled ──────────
-const path = require("path");
-const fs = require("fs");
-const iconsDir = path.join(__dirname, "icons");
-
-for (const bang of Object.values(BANGS)) {
-  if (typeof bang.icon === "string" && !bang.icon.startsWith("/")) {
-    const svgPath = path.join(iconsDir, bang.icon + ".svg");
-    if (fs.existsSync(svgPath)) {
-      bang.icon = svgPath;
-    }
-  }
 }
 
 module.exports = BANGS;

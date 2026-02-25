@@ -8,8 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "simple-icons": "^16.9.0"
-  }
+  "license": "ISC"
 }

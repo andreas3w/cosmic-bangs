@@ -20,14 +20,6 @@ function xdgOpen(url) {
   }).unref();
 }
 
-/** Build the icon object for pop-launcher (Name for theme, Mime for file path). */
-function iconSource(icon) {
-  if (typeof icon === "string" && icon.startsWith("/")) {
-    return { Mime: icon };
-  }
-  return { Name: icon || "system-search" };
-}
-
 // ── state ────────────────────────────────────────────────────────────────────
 
 /** Stores the resolved URLs for the current search so Activate can use them. */
@@ -59,7 +51,7 @@ function handleSearch(query) {
 
   // Find matching bangs (prefix match so typing "y" shows "yt")
   const matches = Object.entries(BANGS).filter(([key]) =>
-    key.startsWith(bangKey)
+    key.startsWith(bangKey),
   );
 
   if (matches.length === 0) {
@@ -68,8 +60,12 @@ function handleSearch(query) {
       Append: {
         id: 0,
         name: `Unknown bang: !${bangKey}`,
-        description: "Available: " + Object.keys(BANGS).map((k) => "!" + k).join(", "),
-        icon: { Name: "dialog-question" },
+        description:
+          "Available: " +
+          Object.keys(BANGS)
+            .map((k) => "!" + k)
+            .join(", "),
+        icon: { Name: "system-search" },
       },
     });
     activeResults.push(null);
@@ -79,18 +75,14 @@ function handleSearch(query) {
       const url = bang.url + encoded;
       const id = activeResults.length;
 
-      const description = searchTerms
-        ? url
-        : `Type a query after !${key}`;
+      const description = searchTerms ? url : `Type a query after !${key}`;
 
       send({
         Append: {
           id,
-          name: searchTerms
-            ? `${bang.name}: ${searchTerms}`
-            : `${bang.name}`,
+          name: searchTerms ? `${bang.name}: ${searchTerms}` : `${bang.name}`,
           description,
-          icon: iconSource(bang.icon),
+          icon: { Name: "system-search" },
         },
       });
 
